@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{% load static%}
+{%block title%}
+register
+{%endblock%}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'accounts/register.css' %}">
+{%endblock%}
+{%block body%}
+<h1 style="color: darkblue;">Register</h1>
+    <form method="post" novalidate>
+    {% csrf_token %}
+        {{form.as_p}}
+    <button type="submit">submit</button>
+    </form>
+
+    {%endblock%}

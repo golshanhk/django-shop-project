@@ -1,0 +1,498 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ product.name }}
+{% endblock %}
+
+{% block css %}
+
+<style>
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 32px;
+    color: #ccc;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked ~ label {
+    color: #ffc107;
+}
+
+.product-image {
+    width: 100%;
+    height: 450px;
+    object-fit: contain;
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container py-5">
+
+    <div class="row g-5">
+
+        <div class="col-md-5">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <img
+                        src="{{ product.image.url }}"
+                        alt="{{ product.name }}"
+                        class="product-image rounded"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-7">
+
+            <h1 class="fw-bold mb-3">
+                {{ product.name }}
+            </h1>
+
+
+            <div class="d-flex flex-wrap gap-3 mb-4">
+
+                <div>
+
+                    <span class="fw-bold">
+                        ❤️ {{ product.total_likes }}
+                    </span>
+
+                    {% if is_like %}
+
+                        <a
+                            href="{% url 'home:product_likes' product.id %}"
+                            class="btn btn-warning btn-sm ms-2"
+                        >
+                            Remove Like
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'home:product_likes' product.id %}"
+                            class="btn btn-outline-primary btn-sm ms-2"
+                            {% if is_dislike %}disabled{% endif %}
+                        >
+                            Like
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div>
+
+                    <span class="fw-bold">
+                        👎 {{ product.total_dislikes }}
+                    </span>
+
+                    {% if is_dislike %}
+
+                        <a
+                            href="{% url 'home:product_dislike' product.id %}"
+                            class="btn btn-warning btn-sm ms-2"
+                        >
+                            Remove Dislike
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'home:product_dislike' product.id %}"
+                            class="btn btn-outline-secondary btn-sm ms-2"
+                            {% if is_like %}disabled{% endif %}
+                        >
+                            Dislike
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="mb-4">
+
+                <h4 class="fw-bold mb-3">
+                    Information
+                </h4>
+
+                <div>
+                    {{ product.information|safe }}
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="mb-4">
+
+                <h4 class="fw-bold mb-3">
+                    انتخاب ویژگی
+                </h4>
+
+                {% for data in variant %}
+
+                    <div class="border rounded p-3 mb-2">
+
+                        <label class="w-100">
+
+                            <input
+                                type="radio"
+                                name="variant"
+                                value="{{ data.id }}"
+                                {% if forloop.first %}checked{% endif %}
+                            >
+
+                            <span class="ms-2">
+
+                                <strong>
+                                    رنگ:
+                                </strong>
+
+                                {{ data.color_variant }}
+
+                                <span class="mx-2">
+                                    |
+                                </span>
+
+                                <strong>
+                                    سایز:
+                                </strong>
+
+                                {{ data.size_variant }}
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                {% empty %}
+
+                    <p class="text-muted">
+                        هیچ رنگ یا سایزی موجود نیست.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <a
+                href="{% url 'home:add_to_cart' product.id %}"
+                class="btn btn-success btn-lg w-100 mb-4"
+            >
+                <i class="fa-solid fa-cart-shopping"></i>
+                Add to cart
+            </a>
+
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        ثبت نظر و امتیاز
+                    </h4>
+
+
+                    <form
+                        method="post"
+                        action="{% url 'home:product_comment' product.id %}"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                امتیاز شما
+                            </label>
+
+                            <div class="rating">
+
+                                <input
+                                    type="radio"
+                                    name="rate"
+                                    value="5"
+                                    id="star5"
+                                    required
+                                >
+
+                                <label for="star5">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rate"
+                                    value="4"
+                                    id="star4"
+                                >
+
+                                <label for="star4">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rate"
+                                    value="3"
+                                    id="star3"
+                                >
+
+                                <label for="star3">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rate"
+                                    value="2"
+                                    id="star2"
+                                >
+
+                                <label for="star2">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rate"
+                                    value="1"
+                                    id="star1"
+                                >
+
+                                <label for="star1">
+                                    ★
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-bold">
+                                نظر شما
+                            </label>
+
+                            <textarea
+                                name="comment"
+                                class="form-control"
+                                rows="4"
+                                placeholder="نظر خود را بنویسید..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            <i class="fa-solid fa-paper-plane"></i>
+                            ارسال نظر
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <div class="mt-5">
+
+                <h4 class="fw-bold mb-4">
+                    نظرات کاربران
+                </h4>
+
+        {% for data in comments %}
+
+                <div class="card border-0 shadow-sm mb-3">
+
+                    <div class="card-body">
+
+
+                        <h6 class="fw-bold">
+                            <i class="fa-solid fa-user"></i>
+                            {{ data.user.username }}
+                        </h6>
+
+
+                        <div class="text-warning mb-2">
+
+                            {% if data.rate >= 1 %}★{% endif %}
+                            {% if data.rate >= 2 %}★{% endif %}
+                            {% if data.rate >= 3 %}★{% endif %}
+                            {% if data.rate >= 4 %}★{% endif %}
+                            {% if data.rate >= 5 %}★{% endif %}
+
+                        </div>
+
+
+
+                        <p class="mb-2">
+                            {{ data.comment }}
+                        </p>
+
+
+
+                        <!-- حذف کامنت اصلی -->
+
+                        <form action="{% url 'home:delete_comment' data.id %}" method="POST">
+
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn btn-danger btn-sm">
+
+                                حذف نظر
+
+                            </button>
+
+                        </form>
+
+
+
+                        <!-- نمایش پاسخ ها -->
+
+                        {% for reply in data.comment_reply.all %}
+
+
+                        <div class="card bg-light border-0 mt-3 ms-4">
+
+
+                            <div class="card-body py-2">
+
+
+                                <h6 class="fw-bold">
+
+                                    <i class="fa-solid fa-reply"></i>
+
+                                    {{ reply.user.username }}
+
+                                </h6>
+
+
+
+                                <p class="mb-2">
+
+                                    {{ reply.comment }}
+
+                                </p>
+
+
+
+                                <!-- حذف پاسخ -->
+
+                                <form action="{% url 'home:delete_comment' reply.id %}" method="POST">
+
+                                    {% csrf_token %}
+
+
+                                    <button type="submit" class="btn btn-danger btn-sm">
+
+                                        حذف پاسخ
+
+                                    </button>
+
+
+                                </form>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        {% endfor %}
+
+
+
+
+                        <!-- فرم پاسخ دادن -->
+
+                        <form action="{% url 'home:Reply' product.id data.id %}" method="POST" class="mt-3">
+
+                            {% csrf_token %}
+
+
+                            <div class="input-group">
+
+
+                                <textarea 
+                                    name="comment"
+                                    class="form-control"
+                                    rows="2"
+                                    placeholder="پاسخ خود را بنویسید..."
+                                ></textarea>
+
+
+
+                                <button type="submit" class="btn btn-primary">
+
+                                    پاسخ
+
+                                </button>
+
+
+                            </div>
+
+
+                        </form>
+
+
+
+                    </div>
+
+
+                </div>
+
+
+        {% endfor %}
+    {% endblock %}    

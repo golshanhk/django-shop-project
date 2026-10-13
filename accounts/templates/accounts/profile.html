@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <h2 class="text-center fw-bold mb-4">
+                        My Profile
+                    </h2>
+
+                    <div class="border-bottom py-3">
+                        <strong>
+                            <i class="fa-solid fa-user"></i>
+                            Username:
+                        </strong>
+                        <span class="float-end">
+                            {{ profile.user.username }}
+                        </span>
+                    </div>
+
+                    <div class="border-bottom py-3">
+                        <strong>
+                            <i class="fa-solid fa-id-card"></i>
+                            First Name:
+                        </strong>
+                        <span class="float-end">
+                            {{ profile.user.first_name }}
+                        </span>
+                    </div>
+
+                    <div class="border-bottom py-3">
+                        <strong>
+                            <i class="fa-solid fa-id-card"></i>
+                            Last Name:
+                        </strong>
+                        <span class="float-end">
+                            {{ profile.user.last_name }}
+                        </span>
+                    </div>
+
+                    <div class="border-bottom py-3">
+                        <strong>
+                            <i class="fa-solid fa-envelope"></i>
+                            Email:
+                        </strong>
+                        <span class="float-end">
+                            {{ profile.user.email }}
+                        </span>
+                    </div>
+
+                    <div class="border-bottom py-3">
+                        <strong>
+                            <i class="fa-solid fa-phone"></i>
+                            Phone:
+                        </strong>
+                        <span class="float-end">
+                            {{ profile.phone }}
+                        </span>
+                    </div>
+
+                    <div class="border-bottom py-3">
+                        <strong>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Address:
+                        </strong>
+                        <span class="float-end">
+                            {{ profile.address }}
+                        </span>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+
+                        <a
+                            href="{% url 'accounts:Update' %}"
+                            class="btn btn-primary"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Update Profile
+                        </a>
+
+                        <a
+                            href="{% url 'accounts:change_password' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            <i class="fa-solid fa-key"></i>
+                            Change Password
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+
+    <div class="p-5 mb-5 bg-light rounded-4 shadow-sm">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <h1 class="display-4 fw-bold">
+                    Welcome to MyStore
+                </h1>
+
+                <p class="lead text-muted">
+                    Find your favorite products at the best prices.
+                </p>
+
+                <a
+                    href="{% url 'home:product' %}"
+                    class="btn btn-primary btn-lg"
+                >
+                    <i class="fa-solid fa-store"></i>
+                    Shop Now
+                </a>
+
+            </div>
+
+            <div class="col-md-4 text-center">
+
+                <i class="fa-solid fa-cart-shopping fa-8x text-primary"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <h2 class="fw-bold mb-4">
+        Categories
+    </h2>
+
+    <div class="row g-4">
+
+        {% for data in category %}
+
+            <div class="col-md-4">
+
+                <a
+                    href="{{ data.get_absolute_url }}"
+                    class="text-decoration-none"
+                >
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body text-center p-4">
+
+                            <i class="fa-solid fa-layer-group fa-3x text-primary mb-3"></i>
+
+                            <h4 class="fw-bold">
+                                {{ data.name }}
+                            </h4>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <p class="text-muted">
+                No categories available.
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,301 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Shopping Cart
+{% endblock %}
+
+
+
+{% block body %}
+
+
+<div class="container py-5">
+
+
+    <h1 class="fw-bold mb-5">
+
+        <i class="fa-solid fa-cart-shopping"></i>
+
+        Shopping Cart
+
+    </h1>
+
+
+
+    {% if products %}
+
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+
+            {% for item in products %}
+
+
+            <div class="card border-0 shadow-sm mb-4">
+
+
+                <div class="card-body">
+
+
+                    <div class="row align-items-center">
+
+
+                        <div class="col-md-3 text-center">
+
+
+                            <img
+                                src="{{ item.product.image.url }}"
+                                class="img-fluid rounded"
+                                style="
+                                width:120px;
+                                height:120px;
+                                object-fit:cover;
+                                "
+                            >
+
+
+                        </div>
+
+                        <div class="col-md-4">
+
+
+                            <h5 class="fw-bold">
+
+                                {{ item.product.name }}
+
+                            </h5>
+
+
+
+                            <p class="text-muted">
+
+                                Price:
+                                {{ item.product.total_price }}
+
+                            </p>
+
+
+
+                        </div>
+
+
+
+
+                        
+                        <div class="col-md-3">
+
+
+                            <div class="d-flex align-items-center gap-2">
+
+
+                                <a
+                                href="{% url 'home:decrease_cart' item.product.id %}"
+                                class="btn btn-outline-secondary btn-sm"
+                                >
+                                    -
+                                </a>
+
+
+
+                                <span class="fw-bold fs-5">
+
+                                    {{ item.quantity }}
+
+                                </span>
+
+
+
+                                <a
+                                href="{% url 'home:increase_cart' item.product.id %}"
+                                class="btn btn-outline-secondary btn-sm"
+                                >
+                                    +
+                                </a>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+                        <div class="col-md-2">
+
+
+                            <a
+                            href="{% url 'home:remove_cart' item.product.id %}"
+                            class="btn btn-outline-danger btn-sm"
+                            >
+
+                                <i class="fa-solid fa-trash"></i>
+
+                            </a>
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <hr>
+
+
+
+                    <div class="d-flex justify-content-between">
+
+
+                        <span>
+
+                            Subtotal:
+
+                        </span>
+
+
+                        <strong>
+
+                            {{ item.subtotal }}
+
+                        </strong>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+            {% endfor %}
+
+
+
+        </div>
+
+
+        <div class="col-lg-4">
+
+
+            <div class="card border-0 shadow-sm">
+
+
+                <div class="card-body">
+
+
+                    <h4 class="fw-bold mb-4">
+
+                        Order Summary
+
+                    </h4>
+
+
+
+                    <hr>
+
+
+
+                    <div class="d-flex justify-content-between mb-3">
+
+
+                        <span>
+
+                            Total:
+
+                        </span>
+
+
+                        <strong>
+
+                            {{ total }}
+
+                        </strong>
+
+
+                    </div>
+
+
+
+
+                    <a
+                    href="#"
+                    class="btn btn-success w-100"
+                    >
+
+                        Checkout
+
+                    </a>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+    {% else %}
+
+
+
+    <div class="text-center py-5">
+
+
+        <i class="fa-solid fa-cart-shopping fa-4x text-muted"></i>
+
+
+
+        <h3 class="mt-4">
+
+            Your cart is empty
+
+        </h3>
+
+
+
+
+        <a
+        href="{% url 'home:product' %}"
+        class="btn btn-primary mt-3"
+        >
+
+            View Products
+
+        </a>
+
+
+
+    </div>
+
+
+
+
+    {% endif %}
+
+
+
+</div>
+
+
+
+{% endblock %}
