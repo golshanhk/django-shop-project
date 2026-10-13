@@ -4,15 +4,15 @@ A full-featured e-commerce website built with Django.
 
 ## Features
 
-- User Authentication
-- Product Management
-- Category and Subcategory System
-- Product Variants (Size & Color)
-- Product Search
-- Shopping Cart
-- Product Comments and Replies
-- Like and Dislike System
-- User Permissions
+- User authentication and profile management
+- Product and category management
+- Product variants (size and color)
+- Shopping cart system
+- Product search functionality
+- Product comments and replies
+- Like and dislike system
+- User permission management
+- Responsive UI with Bootstrap
 
 ## Technologies
 
@@ -28,4 +28,4 @@ A full-featured e-commerce website built with Django.
 Clone the repository:
 
 ```bash
-git clone your-repository-link
+git clone https://github.com/golshanhk/django-shop-project.git
